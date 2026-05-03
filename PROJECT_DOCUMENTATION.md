@@ -40,3 +40,30 @@ Postconditions:
 - User has interacted with the data
 - Updates are saved
 - Data remains available for future use
+
+## Researching and Planning
+
+### Research Your Chosen Issue
+- [Sleep and Social Media](https://www.sleepfoundation.org/how-sleep-works/sleep-and-social-media)
+- [Impact of Social Media on Work Efficiency](https://pmc.ncbi.nlm.nih.gov/articles/PMC8355543/)
+- [Social Media and Mental Health](https://www.helpguide.org/mental-health/wellbeing/social-media-and-mental-health)
+
+### Discuss Your Findings
+Social media can provide both positive and negative impacts on health. Social media positively benefits us as it allows us to interact with friends, family and work colleagues. However, excessive social media can result with, lack of sleep, depression, high stress and isolation. An example of a positive feature of social media includes the usage of WeChat in China, as it is widely used by Chinese companies, highly benefiting the efficiency of work. A negative example however, is FOMO or fear of missing out. This is relevant to social media as for example, sites like Facebook or Instagram create feelings that other people are living life better than you are. This triggers anxiety and could impact self-esteem. Social media can be both good and bad for health, however, it should be used in moderation, to avoid effects like fear of missing out.
+
+### Acquire Your Data
+[Dataset from Kaggle](https://www.kaggle.com/datasets/jayjoshi37/social-media-usage-vs-sleep-stress-and-productivity/data)
+
+### Data Dictionary
+|Field|Datatype|Formart for Display|Description|Example|Validation|
+| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
+| user_id | integer | N | The serveyed user's number | 43 | Can be any number, must be numbers only |
+| age | integer | N | The serveyed user's age | 23 | Must not contain letters |
+| daily_screen_time | float64 | N.NN | The daily screen time of the user in hours | 2.39 | Must contain only numbers and be 2 decimal places |
+| social_media_hours | float64 | N.NN | The amount of screen time on social media apps in hours | 1.39 | Must be only numbers and be 2 decimal places |
+| sleep_hours | float64 | N.NN | The amount of sleep the user got in hours | 8.46 | Only a number with 2 decimal places |
+| exercise_minutes | integer | N | The amount of time the user spent exercising in minutes | 61 | Only numbers, must not contain decimals|
+| study_work_hours | float64 | N.NN | The amount of time the user spent studying or working in hours | 3.73 | Only numbers, to two decimal places |
+| productivity_score | float64 | N.NN | A score out of 100 of the user's productivity | 33.86 | Must be 100 or lower and have 2 decimal places |
+| stress_level | object | XX...XX | How stressed the user is from low, medium and high | Low | Must not contain numbers, can only be low, medium and high |
+| platform | object | XX...XX | The social media platform that the user used the most | Youtube | Must contain only letters and should be a social media platform name |
