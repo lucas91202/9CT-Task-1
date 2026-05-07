@@ -57,13 +57,11 @@ Social media can provide both positive and negative impacts on health. Social me
 ### Data Dictionary
 |Field|Datatype|Formart for Display|Description|Example|Validation|
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
-| user_id | integer | N | The serveyed user's number | 43 | Can be any number, must be numbers only |
-| age | integer | N | The serveyed user's age | 23 | Must not contain letters |
+| age | int64 | N | The serveyed user's age | 23 | Must not contain letters |
 | daily_screen_time | float64 | N.NN | The daily screen time of the user in hours | 2.39 | Must contain only numbers and be 2 decimal places |
 | social_media_hours | float64 | N.NN | The amount of screen time on social media apps in hours | 1.39 | Must be only numbers and be 2 decimal places |
 | sleep_hours | float64 | N.NN | The amount of sleep the user got in hours | 8.46 | Only a number with 2 decimal places |
-| exercise_minutes | integer | N | The amount of time the user spent exercising in minutes | 61 | Only numbers, must not contain decimals|
 | study_work_hours | float64 | N.NN | The amount of time the user spent studying or working in hours | 3.73 | Only numbers, to two decimal places |
 | productivity_score | float64 | N.NN | A score out of 100 of the user's productivity | 33.86 | Must be 100 or lower and have 2 decimal places |
-| stress_level | object | XX...XX | How stressed the user is from low, medium and high | Low | Must not contain numbers, can only be low, medium and high |
-| platform | object | XX...XX | The social media platform that the user used the most | Youtube | Must contain only letters and should be a social media platform name |
+| stress_level | string | XX...XX | How stressed the user is from low, medium and high | Low | Must not contain numbers, can only be low, medium and high |
+| platform | string | XX...XX | The social media platform that the user used the most | Youtube | Must contain only letters and should be a social media platform name |
