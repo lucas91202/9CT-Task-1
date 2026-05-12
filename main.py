@@ -28,7 +28,18 @@ def menu():
         if choice == 1:
             print("view dataset")
         elif choice == 2: 
-            
+            print("View visualisation")
+            visual_choice = input(f'What data would you like to visualise? ') #enter options
+            print(f"Show dataset for {visual_choice}")
+        elif choice == 3:
+            print("Search or filter for data")
+            #find averages/medians/range/mode
+        elif choice == 4:
+            print("Update data entry")
+        elif choice == 5:
+            print("save data")
+        elif choice == 6:
+            break
         break
 
 if __name__ == "__main__":
