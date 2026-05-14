@@ -1,23 +1,4 @@
-
-
-
-def menu():
-    def ui_line():
-        print("_________________________________________________________________________________")
-        print("|                                                                               |")
-        print("|                       ===== Data Viewer Interface =====                       |")
-        print("|    Options:                                                                   |")
-        print("|                                                                               |")
-        print("|        1. View dataset                                                        |")
-        print("|        2. View visualisation                                                  |")
-        print("|        3. Search or filter for data                                           |")
-        print("|        4. Update a data entry                                                 |")
-        print("|        5. Save changes                                                        |")
-        print("|        6. Exit                                                                |")
-        print("|                                                                               |")
-        print("|_______________________________________________________________________________|")
-
-
+from data_module import view_datset
 
     while True:
         ui_line()
@@ -26,7 +7,7 @@ def menu():
             print("Invalid input.")
             choice = int(input("Choose an option from 1-6: ").strip())
         if choice == 1:
-            print("view dataset")
+            view_datset()
         elif choice == 2: 
             print("View visualisation")
             visual_choice = input(f'What data would you like to visualise? ') #enter options
@@ -41,6 +22,7 @@ def menu():
         elif choice == 6:
             break
         break
+
 
 if __name__ == "__main__":
     menu()
