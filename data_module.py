@@ -3,15 +3,49 @@ import pandas as pd
 options = ['User ID', 'Age', 'Daily Screen Time', 'Social Media Hours', 'Sleep Hours', 'Study Work Hours', 'Productivity Score', 'Stress Level', 'Platform']
 
 numerical = {
-    
+    "age_average": "32.557545",
+    "age_0_18": "950",
+    "age_19_25": "2184",
+    "age_26_35": "3319",
+    "age_36_45": "3313",
+    "age_46_55": "1234",
+
+    "dstime_average": "6.557202",
+    "dstime_0_3": "1945",
+    "dstime_3_6": "2948",
+    "dstime_6_9": "3010",
+    "dstime_9_12": "3061",
+
+    "smhours_average": "4.247361",
+    "smhours_0_3": "3672",
+    "smhours_3_6": "4451",
+    "smhours_6_9": "2877",
+
+    "sleep_average": "5.994272",
+    "sleep_0_3": "8",
+    "sleep_3_6": "5500",
+    "sleep_6_9": "5492"
+
+
 }
 
-social_media = pd.read_csv('social_media_sleep_stress_productivity_11000.csv',
-                            header= None,
-                            names=['user_id', 'age', 'daily_screen_time_hours', 'social_media_hours', 'sleep_hours', 'exercise_minutes', 'study_work_hours', 'productivity_score', 'stress_level', 'platform']
-                            )
 
+social_media = pd.read_csv('social_media_sleep_stress_productivity_11000.csv',
+                            index_col=False,
+                            header= None,
+                            names=['user_id', 'age', 'daily_screen_time_hours', 'social_media_hours', 'sleep_hours', 'exercise_minutes', 'study_work_hours', 'productivity_score', 'stress_level', 'platform'],
+                            )
 random_social_media = social_media.sample(n=300)
+
+
+
+a = 9.00
+b = 9
+c = social_media['sleep_hours'].between(a, b).sum()
+print(c)
+
+
+
 
 def menu():
     print("_________________________________________________________________________________")
@@ -30,28 +64,55 @@ def menu():
 
 def view_datset():
     print("Viewing dataset...\n")
-    social_media.drop(columns=['user_id', 'exercise_minutes'], inplace=True)
-    print(social_media.to_string(index=False))
+    num = len(social_media.columns)
+    if num == 10:
+        social_media.drop(columns=['user_id', 'exercise_minutes'], inplace=True)
+        print(social_media)
+    else:
+        print(social_media)
 
 def filtersearch():
-    filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Exit\nChoose an option from 1-3"))
-    while filter2 not in [1, 2, 3, 4, 5]:
-        filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Exit\nChoose an option from 1-3"))
-    if filter2 == 1:
-        average = social_media.loc[:, [f'{filter}']].mean() #fix output
-        print(average)
-    elif filter2 == 2:
-        userentry = int(input("What number would you like to search for?"))
-        valuecount = social_media[filter].value_counts().get(userentry, 0)
-        print(f"Occurences of {userentry}: {valuecount}") #show the rows with the number?
+    if filter not in ["stress_level", "platform"]:
+        filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Exit\nChoose an option from 1-3: "))
+        while filter2 not in [1, 2, 3]:
+            filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Exit\nChoose an option from 1-3: "))
+        if filter2 == 1:
+            average = social_media.loc[:, [f'{filter}']].mean() #fix output
+            print(average.to_string())
+        elif filter2 == 2:
+            userentry = int(input("Enter the number you would like to search for: "))
+            valuecount = social_media[filter].value_counts().get(userentry, 0)
+            print(f"Occurences of {userentry}: {valuecount}") #show the rows with the number?
+    else:
+        filter3 = int(input("1. Search for amounts of each word\n2. Exit\nChoose an option from 1-2: "))
+        while filter3 not in [1, 2]:
+                    filter3 = int(input("1. Search for amounts of each word\n2. Exit\nChoose an option from 1-2: "))
+        if filter3 == 1:
+            if filter == "stress_level":
+                userentry1 = input("Options: Low, Medium, High\nEnter the corresponding stress level: ").lower()
+                while userentry1 not in ['low', 'medium', 'high']:
+                    print("Invalid")
+                    userentry1 = input("Options: Low, Medium, High\nEnter the corresponding stress level: ").lower()
+                valuecount = social_media[filter].value_counts().get(userentry1, 0)
+                print(f"Occurences of {userentry1}: {valuecount}") #show the rows with the number?
+            elif filter == "platform":
+                userentry2 = input("Options: Twitter, Youtube, Snapchat, LinkedIn, Instagram\nEnter the corresponding platform: ").capitalize()
+                while userentry2 not in ['Twitter', 'Youtube', 'Snapchat', 'Linkedin', 'Instagram']:
+                    print("Invalid")
+                    userentry2 = input("Options: Twitter, Youtube, Snapchat, LinkedIn, Instagram\nEnter the corresponding platform: ").capitalize()
+                if userentry2 == "Linkedin":
+                    userentry2 = userentry2[:6]+"I"+userentry2[7:]
+                valuecount = social_media[filter].value_counts().get(userentry2, 0)
+                print(f"Occurences of {userentry2}: {valuecount}") #show the rows with the number?
+        elif filter3 == 2:
+            search_data()
+            
 
 def search_data():
     global filter
-    fil = input("Choose a topic to sort: Age, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform").lower()
+    fil = input("Choose a topic to sort:\nAge, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform: ").lower()
     filter = fil.replace(" ", "_")
-    if filter == 'age':
-        filtersearch()
-
+    filtersearch()
 
 def graph(x, y, z):
     random_social_media.plot(
@@ -98,4 +159,3 @@ def view_visualisation(): #unfinished work on later sort categories into groups 
         if graph_options == 2:
             graph('stress_level', 'social_media_hours', 'bar')
 
-search_data()

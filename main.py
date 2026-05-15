@@ -1,4 +1,4 @@
-from data_module import menu, view_datset
+from data_module import options, numerical, social_media, random_social_media, menu, view_datset, filtersearch, search_data, graph, view_visualisation
 
 def main():
     menu()
@@ -10,19 +10,15 @@ def main():
         if choice == 1:
             view_datset()
         elif choice == 2: 
-            print("View visualisation")
-            visual_choice = input(f'What data would you like to visualise? ') #enter options
-            print(f"Show dataset for {visual_choice}")
+            search_data()
         elif choice == 3:
-            print("Search or filter for data")
-            #find averages/medians/range/mode
+            print(numerical)
         elif choice == 4:
             print("Update data entry")
         elif choice == 5:
             print("save data")
         elif choice == 6:
             break
-        break
 
 
 if __name__ == "__main__":
