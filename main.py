@@ -1,7 +1,8 @@
-from data_module import view_datset
+from data_module import menu, view_datset
 
+def main():
+    menu()
     while True:
-        ui_line()
         choice = int(input("Choose an option from 1-6: ").strip())
         while choice not in [1, 2, 3, 4, 5, 6]:
             print("Invalid input.")
@@ -25,4 +26,4 @@ from data_module import view_datset
 
 
 if __name__ == "__main__":
-    menu()
+    main()
