@@ -32,7 +32,7 @@ def view_datset():
     print(social_media.to_string(index=False))
 
 def search_data():
-    filter = input("Choose a topic to sort: Age, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform")
+    s
 
 def graph(x, y, z):
     social_media.plot(
