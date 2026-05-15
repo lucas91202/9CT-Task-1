@@ -11,6 +11,8 @@ social_media = pd.read_csv('social_media_sleep_stress_productivity_11000.csv',
                             names=['user_id', 'age', 'daily_screen_time_hours', 'social_media_hours', 'sleep_hours', 'exercise_minutes', 'study_work_hours', 'productivity_score', 'stress_level', 'platform']
                             )
 
+random_social_media = social_media.sample(n=300)
+
 def menu():
     print("_________________________________________________________________________________")
     print("|                                                                               |")
@@ -31,11 +33,28 @@ def view_datset():
     social_media.drop(columns=['user_id', 'exercise_minutes'], inplace=True)
     print(social_media.to_string(index=False))
 
+def filtersearch():
+    filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Exit\nChoose an option from 1-3"))
+    while filter2 not in [1, 2, 3, 4, 5]:
+        filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Exit\nChoose an option from 1-3"))
+    if filter2 == 1:
+        average = social_media.loc[:, [f'{filter}']].mean() #fix output
+        print(average)
+    elif filter2 == 2:
+        userentry = int(input("What number would you like to search for?"))
+        valuecount = social_media[filter].value_counts().get(userentry, 0)
+        print(f"Occurences of {userentry}: {valuecount}") #show the rows with the number?
+
 def search_data():
-    filter = input("Choose a topic to sort: Age, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform")
+    global filter
+    fil = input("Choose a topic to sort: Age, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform").lower()
+    filter = fil.replace(" ", "_")
+    if filter == 'age':
+        filtersearch()
+
 
 def graph(x, y, z):
-    social_media.plot(
+    random_social_media.plot(
                kind=z,
                x= x,
                y= y,
@@ -45,7 +64,7 @@ def graph(x, y, z):
               )
     plt.show()
 
-def view_visualisation(): #unfinished work on later
+def view_visualisation(): #unfinished work on later sort categories into groups and determine amounts for each one
     choice = input("Would you like to view prechosen graphs(recommended) or choose your own variables? Enter 1 for prechosen, 2 for custom variables or 0 to exit: ")
     while choice not in ['1', '2']:
         print("Invalid input")
@@ -79,4 +98,4 @@ def view_visualisation(): #unfinished work on later
         if graph_options == 2:
             graph('stress_level', 'social_media_hours', 'bar')
 
-view_visualisation()
+search_data()
