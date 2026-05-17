@@ -4,17 +4,17 @@ options = ['Age', 'Daily Screen Time', 'Social Media Hours', 'Sleep Hours', 'Stu
 
 xval = {
     "age" : ['0-18', '19-25', '26-35', '36-45', '46-55'],
-    "daily_screen_time" : ['0-3', '3-6', '6-9', '9-12', ''],
-    "social_media_hours" : ['0-3', '3-6', '6-9', '', ''],
-    "sleep_hours" : ['0-3', '3-6', '6-9', '', ''],
-    "study_work_hours" : ['0-3', '3-6', '6-9', '9-12', ''],
-    "productivity_score" : ['0-25', '25-50', '50-75', '75-100', ''],
-    "average_age" : ['', '', '', '', ''],
-    "average_daily_screen_time" : ['', '', '', '', ''],
-    "average_social_media_hours" : ['', '', '', '', ''],
-    "average_sleep_hours" : ['', '', '', '', ''],
-    "average_study_work_hours" : ['', '', '', '', ''],
-    "average_productivity_score" : ['', '', '', '', ''],
+    "daily_screen_time" : ['0-3', '3-6', '6-9', '9-12', 0],
+    "social_media_hours" : ['0-3', '3-6', '6-9', 0, 0],
+    "sleep_hours" : ['0-3', '3-6', '6-9', 0, 0],
+    "study_work_hours" : ['0-3', '3-6', '6-9', '9-12', 0],
+    "productivity_score" : ['0-25', '25-50', '50-75', '75-100', 0],
+    "average_age" : [0, 0, 0, 0, 0],
+    "average_daily_screen_time" : [0, 0, 0, 0, 0],
+    "average_social_media_hours" : [0, 0, 0, 0, 0],
+    "average_sleep_hours" : [0, 0, 0, 0, 0],
+    "average_study_work_hours" : [0, 0, 0, 0, 0],
+    "average_productivity_score" : [0, 0, 0, 0, 0],
 }
 
 df = pd.DataFrame(xval)
@@ -123,7 +123,7 @@ def search_data():
 
 
 def graph(x, y, z):
-    if x not in ['stress_level', 'platform']:
+    if df[df[x].isin(['stress_level', 'platform'])]:
         df.plot(
                 kind= z,
                 x= x,
@@ -145,25 +145,41 @@ def graph(x, y, z):
                 )
         plt.show()
 
-second_value = "age"
+second_value = "sleep_hours"
+second_val = "average_sleep_hours"
 
-def average(x): # Finish making sure that the average function adds the values to the correct respective '' in the xval dataframe
+def average(x, y): # Finish making sure that the average function adds the values to the correct respective '' in the xval dataframe
     l = 0
-    for z in df[x]:
-        split = df[x].str.split("-", expand=True).astype(int)
-        split.columns = ['a', 'b']
-        nums = int(split['a'].iloc[l])
-        nums2 = int(split['b'].iloc[l])
-        aver = social_media.loc[social_media[x].between(nums, nums2), x].mean()
-        test.append(aver)
-        l += 1
+    if x == "age":
+        if len(df[x]) > 0:
+            pass
+        else:
+            for z in df[x]:
+                split = df[x].str.split("-", expand=True).astype(int)
+                split.columns = ['a', 'b']
+                nums = int(split['a'].iloc[l])
+                nums2 = int(split['b'].iloc[l])
+                aver = (social_media.loc[social_media[x].between(nums, nums2), x].mean()).astype(int)
+                df.at[l, y] = aver
+                l += 1
+    else:
+        for z in df[x]:
+            split = df[x].str.split("-", expand=True)
+            split.columns = ['a', 'b']
+            if split['a'].iloc[l] == False:
+                pass
+            else:
+                df[y] = df[y].astype('float64')
+                nums = float(split['a'].iloc[l])
+                nums2 = float(split['b'].iloc[l])
+                value = social_media[x][(social_media[x] >= nums) & (social_media[x] <= nums2)].mean()
+                df.at[l, y] = value
+                l += 1
 
-average(second_value)
-
-print(test)
 def view_visualisation(): #Work on fully implementing the average function
     global first
     global second_value
+    global second_val
     choice = input("Would you like to view prechosen graphs(recommended) or choose your own variables? Enter 1 for prechosen, 2 for custom variables or 0 to exit: ")
     while choice not in ['1', '2']:
         print("Invalid input")
@@ -185,14 +201,17 @@ def view_visualisation(): #Work on fully implementing the average function
                     if second == "0":
                         print("Exiting...")
                         menu()
-        else:
-            first_value = first.replace(" ", "_")
-            second_value = second.replace(" ", "_")
-            graph_type = input("What kind of graph would you like? Options: scatter, bar, pie.").strip().lower()
-            average(second_value)
-            add = "average_"
-            second_val = add + second_value
-            graph(first_value, second_val, graph_type)
+            else:
+                first_value = first.replace(" ", "_")
+                second_value = second.replace(" ", "_")
+                add = "average_"
+                second_val = add + second_value
+                if first_value not in ["stress_level", "platform"]:
+                    average(second_value, second_val)
+                    print(df[first_value])
+                else:
+                    graph(social_media[first_value], social_media[second_value], 'bar')
+
     if choice == '1':
         graph_options = int(input("Options:\n1. Social media hours vs sleep hours\n2. Social media hours vs stress level\n3. Social media hours vs productivity score\nChoose an option from 1-3 or 0 to exit: "))
         if graph_options == 1:
@@ -200,3 +219,4 @@ def view_visualisation(): #Work on fully implementing the average function
         if graph_options == 2:
             graph('stress_level', 'social_media_hours', 'bar')
 
+view_visualisation()
