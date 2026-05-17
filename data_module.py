@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+import sys
+import time
 options = ['Age', 'Daily Screen Time', 'Social Media Hours', 'Sleep Hours', 'Study Work Hours', 'Productivity Score', 'Stress Level', 'Platform']
 
 xval = {
@@ -21,6 +24,15 @@ social_media = pd.read_csv('social_media_sleep_stress_productivity_11000.csv',
                             )
 random_social_media = social_media.sample(n=300)
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def at(text, delay=0.01):
+    for char in text:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(delay)
+    print()
 def menu():
     print("_________________________________________________________________________________")
     print("|                                                                               |")
@@ -37,7 +49,7 @@ def menu():
     print("|_______________________________________________________________________________|")
 
 def view_datset():
-    print("Viewing dataset...\n")
+    at("Viewing dataset...\n", 0.05)
     num = len(social_media.columns)
     if num == 10:
         social_media.drop(columns=['user_id', 'exercise_minutes'], inplace=True)
@@ -47,69 +59,83 @@ def view_datset():
 
 def filtersearch():
     if filter not in ["stress_level", "platform"]:
-        filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Sort frequency by ascending or descending\n4. Find values between two ranges\n5. Exit\nChoose an option from 1-5: "))
+        at("1. Find the average\n2. Search all entries for a number\n3. Sort frequency by ascending or descending\n4. Find values between two ranges\n5. Exit\nChoose an option from 1-5: ")
+        filter2 = int(input())
         while filter2 not in [1, 2, 3, 4, 5]:
-            filter2 = int(input("1. Find the average\n2. Search all entries for a number\n3. Sort frequency by ascending or descending\n4. Find values between two ranges\n5. Exit\nChoose an option from 1-5: "))
+            at("1. Find the average\n2. Search all entries for a number\n3. Sort frequency by ascending or descending\n4. Find values between two ranges\n5. Exit\nChoose an option from 1-5: ")
+            filter2 = int(input())
         if filter2 == 1:
             average = social_media.loc[:, [f'{filter}']].mean()
-            print(average.to_string())
+            at(average.to_string())
         elif filter2 == 2:
-            userentry = float(input("Enter the number or decimal you would like to search for: "))
+            at("Enter the number or decimal you would like to search for: ")
+            userentry = float(input())
             valuecount = social_media[filter].value_counts().get(userentry, 0)
-            print(f"Occurences of {userentry}: {valuecount}") #show the rows with the number?
+            at(f"Occurences of {userentry}: {valuecount}") #show the rows with the number?
         elif filter2 == 3:
-            ascdsc = input("Enter how you would like to sort the data(ascending/descending): ").strip().lower()
+            at("Enter how you would like to sort the data(ascending/descending): ")
+            ascdsc = input().strip().lower()
             while ascdsc not in ['ascending', 'descending']:
-                ascdsc = input("Enter how you would like to sort the data(ascending/descending): ").strip().lower()
+                at("Enter how you would like to sort the data(ascending/descending): ")
+                ascdsc = input().strip().lower()
             if ascdsc == "ascending":
                 asc = social_media[filter].value_counts(ascending=True)
-                print(asc.to_string())
+                at(asc.to_string())
             else:
                 dsc = social_media[filter].value_counts(ascending=False)
-                print(dsc.to_string())
+                at(dsc.to_string())
         elif filter2 == 4:
-            val1 = float(input("Enter the lower number of the range: "))
-            val2 = float(input("Enter the higher number of the range: "))
+            at("Enter the lower number of the range: ")
+            val1 = float(input())
+            at("Enter the higher number of the range: ")
+            val2 = float(input())
             valu = social_media[filter].value_counts().sort_index()
             value = valu.loc[val1:val2]
-            print(value.to_string())
+            at(value.to_string())
         elif filter2 == 5:
             search_data()
     else:
-        filter3 = int(input("1. Search for amounts of each word\n2. Exit\nChoose an option from 1-2: "))
+        at("1. Search for amounts of each word\n2. Exit\nChoose an option from 1-2: ")
+        filter3 = int(input())
         while filter3 not in [1, 2]:
-                    filter3 = int(input("1. Search for amounts of each word\n2. Exit\nChoose an option from 1-2: "))
+                    at("1. Search for amounts of each word\n2. Exit\nChoose an option from 1-2: ")
+                    filter3 = int(input())
         if filter3 == 1:
             if filter == "stress_level":
-                userentry1 = input("Options: Low, Medium, High\nEnter the corresponding stress level: ").capitalize()
+                at("Options: Low, Medium, High\nEnter the corresponding stress level: ")
+                userentry1 = input().capitalize()
                 while userentry1 not in ['Low', 'Medium', 'High']:
-                    print("Invalid")
-                    userentry1 = input("Options: Low, Medium, High\nEnter the corresponding stress level: ").capitalize()
+                    at("Invalid")
+                    at("Options: Low, Medium, High\nEnter the corresponding stress level: ")
+                    userentry1 = input().capitalize()
                 valuecount = social_media[filter].value_counts().get(userentry1, 0)
-                print(f"Occurences of {userentry1}: {valuecount}")
+                at(f"Occurences of {userentry1}: {valuecount}")
             elif filter == "platform":
-                userentry2 = input("Options: Twitter, Youtube, Snapchat, LinkedIn, Instagram\nEnter the corresponding platform: ").capitalize()
+                at("Options: Twitter, Youtube, Snapchat, LinkedIn, Instagram\nEnter the corresponding platform: ")
+                userentry2 = input().capitalize()
                 while userentry2 not in ['Twitter', 'Youtube', 'Snapchat', 'Linkedin', 'Instagram']:
-                    print("Invalid")
-                    userentry2 = input("Options: Twitter, Youtube, Snapchat, LinkedIn, Instagram\nEnter the corresponding platform: ").capitalize()
+                    at("Invalid")
+                    at("Options: Twitter, Youtube, Snapchat, LinkedIn, Instagram\nEnter the corresponding platform: ")
+                    userentry2 = input().capitalize()
                 if userentry2 == "Linkedin":
                     userentry2 = userentry2[:6]+"I"+userentry2[7:]
                     valuecount = social_media[filter].value_counts().get(userentry2, 0)
-                    print(f"Occurences of {userentry2}: {valuecount}")
+                    at(f"Occurences of {userentry2}: {valuecount}")
                 elif userentry2 == "Youtube":
                     userentry2 = userentry2[:3]+"T"+userentry2[4:]
                     valuecount = social_media[filter].value_counts().get(userentry2, 0)
-                    print(f"Occurences of {userentry2}: {valuecount}") 
+                    at(f"Occurences of {userentry2}: {valuecount}") 
                 else:
                     valuecount = social_media[filter].value_counts().get(userentry2, 0)
-                    print(f"Occurences of {userentry2}: {valuecount}")
+                    at(f"Occurences of {userentry2}: {valuecount}")
 
         elif filter3 == 2:
             search_data()   
 
 def search_data():
     global filter
-    fil = input("Choose a topic to sort:\nAge, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform: ").lower()
+    at("Choose a topic to sort:\nAge, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform: ")
+    fil = input().lower()
     filter = fil.replace(" ", "_")
     filtersearch()
 

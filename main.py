@@ -1,24 +1,30 @@
-from data_module import options, social_media, random_social_media, menu, view_datset, filtersearch, search_data, graph, view_visualisation
+from data_module import at, clear_screen, menu, view_datset, search_data, view_visualisation
 
 def main():
+    clear_screen()
+    at('Starting...', 0.2)
+    clear_screen()
     menu()
     while True:
-        choice = int(input("Choose an option from 1-6: ").strip())
+        at("Choose an option from 1-6: ", 0.05)
+        choice = int(input())
         while choice not in [1, 2, 3, 4, 5, 6]:
-            print("Invalid input.")
-            choice = int(input("Choose an option from 1-6: ").strip())
+            at("Invalid input.", 0.05)
+            at("Choose an option from 1-6: ", 0.05)
+            choice = int(input())
+        clear_screen()
         if choice == 1:
             view_datset()
         elif choice == 2: 
-            search_data()
+            search_data() #small fixes to work on
         elif choice == 3:
-            view_visualisation()
+            view_visualisation() #fix text, change graphs y axis to not start from 0
         elif choice == 4:
-            print("Update data entry")
+            print("Update data entry") #work on
         elif choice == 5:
-            print("save data")
+            print("save data") #work on
         elif choice == 6:
-            break
+            break #add exiting screen
 
 if __name__ == "__main__":
     main()
