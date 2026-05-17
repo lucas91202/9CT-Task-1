@@ -1,4 +1,4 @@
-from data_module import options, numerical, social_media, random_social_media, menu, view_datset, filtersearch, search_data, graph, view_visualisation
+from data_module import options, social_media, random_social_media, menu, view_datset, filtersearch, search_data, graph, view_visualisation
 
 def main():
     menu()
@@ -12,14 +12,13 @@ def main():
         elif choice == 2: 
             search_data()
         elif choice == 3:
-            print(numerical)
+            view_visualisation()
         elif choice == 4:
             print("Update data entry")
         elif choice == 5:
             print("save data")
         elif choice == 6:
             break
-
 
 if __name__ == "__main__":
     main()

@@ -9,12 +9,7 @@ xval = {
     "sleep_hours" : ['0-3', '3-6', '6-9', 0, 0],
     "study_work_hours" : ['0-3', '3-6', '6-9', '9-12', 0],
     "productivity_score" : ['0-25', '25-50', '50-75', '75-100', 0],
-    "average_age" : [0, 0, 0, 0, 0],
-    "average_daily_screen_time" : [0, 0, 0, 0, 0],
-    "average_social_media_hours" : [0, 0, 0, 0, 0],
-    "average_sleep_hours" : [0, 0, 0, 0, 0],
-    "average_study_work_hours" : [0, 0, 0, 0, 0],
-    "average_productivity_score" : [0, 0, 0, 0, 0],
+    "average" : [0, 0, 0, 0, 0]
 }
 
 df = pd.DataFrame(xval)
@@ -25,8 +20,6 @@ social_media = pd.read_csv('social_media_sleep_stress_productivity_11000.csv',
                             names=['user_id', 'age', 'daily_screen_time_hours', 'social_media_hours', 'sleep_hours', 'exercise_minutes', 'study_work_hours', 'productivity_score', 'stress_level', 'platform'],
                             )
 random_social_media = social_media.sample(n=300)
-
-test = []
 
 def menu():
     print("_________________________________________________________________________________")
@@ -112,8 +105,7 @@ def filtersearch():
                     print(f"Occurences of {userentry2}: {valuecount}")
 
         elif filter3 == 2:
-            search_data()
-            
+            search_data()   
 
 def search_data():
     global filter
@@ -121,47 +113,72 @@ def search_data():
     filter = fil.replace(" ", "_")
     filtersearch()
 
-
 def graph(x, y, z):
-    if df[df[x].isin(['stress_level', 'platform'])]:
-        df.plot(
-                kind= z,
-                x= x,
-                y= y,
-                color='blue',
-                alpha=0.3,
-                title=f'{x} vs {y}'
-                )
-        plt.show()
-    else:
-        word = social_media.groupby(x)[y].sum().sort_values(ascending=False) #find averages of y value and use groups of x
+        word = val.sort_values(ascending=False) #find averages of y value and use groups of x
         word.plot(
-                kind= z,
+                kind= 'bar',
                 x= x,
                 y= y,
                 color='blue',
                 alpha=0.3,
-                title=f'{x} vs {y}'
+                title=f'{x} vs {z}'
                 )
         plt.show()
 
-second_value = "sleep_hours"
-second_val = "average_sleep_hours"
+def graph2(x, y, z):    
+        df2 = df[df[x] != 0]  
+        df2.plot(
+                kind= 'bar',
+                x= x,
+                y= y,
+                color='blue',
+                alpha=0.3,
+                title=f'{x} vs {z}'
+                )
+        plt.show()
 
-def average(x, y): # Finish making sure that the average function adds the values to the correct respective '' in the xval dataframe
+def graph3(x, y, z):    
+        df2 = df[df[x] != 0]  
+        df2.plot(
+                kind= 'bar',
+                x= x,
+                y= y,
+                color='blue',
+                alpha=0.3,
+                title= z
+                )
+        plt.show()
+
+def graph4(x, y, z):
+        word = val.sort_values(ascending=False) #find averages of y value and use groups of x
+        word.plot(
+                kind= 'bar',
+                x= x,
+                y= y,
+                color='blue',
+                alpha=0.3,
+                title=z
+                )
+        plt.show()
+
+def graph5(x, y, z):      
+        random_social_media.plot(
+                kind= 'scatter',
+                x= x,
+                y= y,
+                color='blue',
+                alpha=0.3,
+                title= z
+                )
+        plt.show()
+
+def average(x, y): 
+    global val
     l = 0
-    if x == "age":
-        if len(df[x]) > 0:
-            pass
-        else:
-            for z in df[x]:
-                split = df[x].str.split("-", expand=True).astype(int)
-                split.columns = ['a', 'b']
-                nums = int(split['a'].iloc[l])
-                nums2 = int(split['b'].iloc[l])
-                aver = (social_media.loc[social_media[x].between(nums, nums2), x].mean()).astype(int)
-                df.at[l, y] = aver
-                l += 1
+    if x in ["stress_level", "platform"]:
+        val = social_media.groupby(x)[y].mean()
+        if x == "stress_level":
+            val = val.reindex(['Low', 'Medium', 'High'])
     else:
         for z in df[x]:
             split = df[x].str.split("-", expand=True)
@@ -169,14 +186,14 @@ def average(x, y): # Finish making sure that the average function adds the value
             if split['a'].iloc[l] == False:
                 pass
             else:
-                df[y] = df[y].astype('float64')
+                df['average'] = df['average'].astype('float64')
                 nums = float(split['a'].iloc[l])
                 nums2 = float(split['b'].iloc[l])
-                value = social_media[x][(social_media[x] >= nums) & (social_media[x] <= nums2)].mean()
-                df.at[l, y] = value
+                value = social_media.loc[social_media[x].between(nums, nums2), y].mean()
+                df.at[l, 'average'] = value
                 l += 1
 
-def view_visualisation(): #Work on fully implementing the average function
+def view_visualisation(): 
     global first
     global second_value
     global second_val
@@ -204,19 +221,38 @@ def view_visualisation(): #Work on fully implementing the average function
             else:
                 first_value = first.replace(" ", "_")
                 second_value = second.replace(" ", "_")
-                add = "average_"
-                second_val = add + second_value
                 if first_value not in ["stress_level", "platform"]:
-                    average(second_value, second_val)
-                    print(df[first_value])
+                    average(first_value, second_value)
+                    graph2(first_value, 'average', second_value)
                 else:
-                    graph(social_media[first_value], social_media[second_value], 'bar')
+                    average(first_value, second_value)
+                    graph(first_value, 'average', second_value)
 
     if choice == '1':
-        graph_options = int(input("Options:\n1. Social media hours vs sleep hours\n2. Social media hours vs stress level\n3. Social media hours vs productivity score\nChoose an option from 1-3 or 0 to exit: "))
-        if graph_options == 1:
-            graph('social_media_hours', 'sleep_hours', 'scatter')
-        if graph_options == 2:
-            graph('stress_level', 'social_media_hours', 'bar')
-
-view_visualisation()
+        tp = int(input("Options:\n1. Bar Graphs\n2. Scatter Plot\n3. Exit\nChoose an option from 1-3: "))
+        if tp == 1:
+            graph_options = int(input("Options:\n1. Social media hours vs sleep hours\n2. Social media hours vs stress level\n3. Social media hours vs productivity score\nChoose an option from 1-3 or 0 to exit: "))
+            if graph_options == 1:
+                average('social_media_hours', 'sleep_hours')
+                graph3('social_media_hours', 'average', 'Social media effect on sleep')
+            elif graph_options == 2:
+                average('stress_level', 'social_media_hours')
+                graph4('stress_level', 'average', 'Social media effect on stress levels')
+            elif graph_options == 3:
+                average('social_media_hours', 'productivity_score')
+                graph3('social_media_hours', 'average', 'Social media effect on productivity level out of 100')
+            elif graph_options == 0:
+                print('Exiting...')
+                view_visualisation()
+        elif tp == 2:
+            graph_options = int(input("Options:\n1. Social media hours vs sleep hours\n2. Social media hours vs productivity score\nChoose an option from 1-2 or 0 to exit: "))
+            if graph_options == 1:
+                graph5('social_media_hours', 'sleep_hours', 'Social media effect on sleep')
+            elif graph_options == 2:
+                graph5('social_media_hours', 'productivity_score', 'Social media effect on productivity')
+            elif graph_options == 0:
+                print('Exiting...')
+                view_visualisation()
+        elif tp == 3:
+            print('Exiting...')
+            view_visualisation()
