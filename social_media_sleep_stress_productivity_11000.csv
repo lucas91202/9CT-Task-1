@@ -1,3 +1,4 @@
+user_id,age,daily_screen_time_hours,social_media_hours,sleep_hours,exercise_minutes,study_work_hours,productivity_score,stress_level,platform
 1,44,2.39,1.93,8.46,61,3.73,33.86,Low,YouTube
 2,30,7.22,5.24,7.34,28,6.8,85.32,Low,YouTube
 3,23,2.56,4.64,4.69,8,4.47,60.07,High,YouTube
