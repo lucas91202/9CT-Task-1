@@ -21,7 +21,7 @@ df = pd.DataFrame(xval)
 
 social_media = pd.read_csv('social_media_sleep_stress_productivity_11000.csv',
                             index_col=False,
-                            header= None,
+                            header= 0,
                             names=['user_id', 'age', 'daily_screen_time_hours', 'social_media_hours', 'sleep_hours', 'exercise_minutes', 'study_work_hours', 'productivity_score', 'stress_level', 'platform'],
                             )
 
@@ -82,6 +82,7 @@ def filtersearch():
         clear_screen()
         menu()
     elif filter not in ["stress_level", "platform"]:
+        social_media[filter] = pd.to_numeric(social_media[filter], errors='coerce')
         at("1. Find the average\n2. Search all entries for a number\n3. Sort frequency by ascending or descending\n4. Find values between two ranges\n5. Exit\nChoose an option from 1-5: ")
         filter2 = input()
         while filter2 not in ['1', '2', '3', '4', '5']:
@@ -193,7 +194,7 @@ def search_data():
     global filter
     at("Choose a topic to sort:\nAge, Daily Screen Time Hours, Social Media Hours, Sleep Hours, Study Work Hours, Productivity Score, Stress Level, Platform, Or enter 0 to exit: ")
     fil = input().lower()
-    if fil not in options1:
+    if fil not in options1 + ['0']:
         at("Invalid topic.")
         pause(1)
         clear_screen()
@@ -275,22 +276,27 @@ def graph5(x, y, z):
 
 def average(x, y): 
     global val
+    social_media[y] = pd.to_numeric(social_media[y], errors='coerce')
     l = 0
     if x in ["stress_level", "platform"]:
         val = social_media.groupby(x)[y].mean()
         if x == "stress_level":
             val = val.reindex(['Low', 'Medium', 'High'])
+        else:
+            val = val.reindex(['Twitter', 'YouTube', 'Snapchat', 'LinkedIn', 'Instagram'])
     else:
         for z in df[x]:
             split = df[x].str.split("-", expand=True)
             split.columns = ['a', 'b']
             if split['a'].iloc[l] == False:
+                print('a')
                 pass
             else:
+                social_media_numeric = pd.to_numeric(social_media[x], errors='coerce')
                 df['average'] = df['average'].astype('float64')
                 nums = float(split['a'].iloc[l])
                 nums2 = float(split['b'].iloc[l])
-                value = social_media.loc[social_media[x].between(nums, nums2), y].mean()
+                value = social_media.loc[social_media_numeric.between(nums, nums2), y].mean()
                 df.at[l, 'average'] = value
                 l += 1
 
@@ -317,70 +323,87 @@ def view_visualisation():
         at("Would you like to view prechosen graphs(recommended) or choose your own variables? Enter 1 for prechosen, 2 for custom variables or 0 to exit: ")
         choice = input()
     if choice == '2':
-        at(f"Choose the x value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+        at(f"Choose the x value of the graph: {', '.join(options)}. Enter 0 to exit. ")
         first = input().lower()
-        while first not in options1:
+        while first not in options1+["0"]:
             at("Invalid option.")
             pause(1)
             clear_screen()
-            at(f"Choose the x value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+            at(f"Choose the x value of the graph: {', '.join(options)}. Enter 0 to exit. ")
             first = input().lower()
         if first == "0":
             at("Exiting...")
             pause(1)
             clear_screen()
             menu()
+            return
         elif first != "0":
-            at(f"Choose the y value of the graph: {", ".join(options)}. Enter 0 to exit or 1 to go back and edit your x value. ")
+            at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit or 1 to go back and edit your x value. ")
             second = input().lower()
             while second not in options1[0:5] + ["0", "1"]:
                 at("Invalid option.")
                 pause(1)
                 clear_screen()
                 at(f"Your choice for the x value: {first}")
-                at(f"Choose the y value of the graph: {", ".join(options)}. Enter 0 to exit or 1 to go back and edit your x value. ")
+                at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit or 1 to go back and edit your x value. ")
                 second = input().lower()
             if second == "0":
                 at("Exiting...")
                 pause(1)
                 menu()
+                return
             elif second == "1":
-                at(f"Rechoose the x value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+                at(f"Rechoose the x value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                 first = input().lower()
-                while first not in options1:
+                while first not in options1+['0']:
                     at("Invalid option.")
                     pause(1)
                     clear_screen()
-                    at(f"Rechoose the x value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+                    at(f"Rechoose the x value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                     first = input().lower()
-                at(f"Choose the y value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+                if first == "0":
+                    at("Exiting...")
+                    pause(1)
+                    clear_screen()
+                    menu()
+                    return
+                at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                 second = input().lower()
-                while second not in options1[0:5]:
+                while second not in options1[0:5]+['0']:
                     at("Invalid option.")
                     pause(1)
                     clear_screen()
                     at(f"Your choice for the x value: {first}")
-                    at(f"Choose the y value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+                    at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                     second = input().lower()
                 if second == "0":
                     at("Exiting...")
                     pause(1)
+                    clear_screen()
                     menu()
+                    return
                 elif first == second:
                     at("Invalid.")
                     pause(1)
                     clear_screen()
                     at(f"Your choice for the x value: {first}")
-                    at(f"Choose the y value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+                    at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                     second = input().lower()
-                    while second not in options1[0:5]:
+                    while second not in options1[0:5]+['0']:
                         at("Invalid option.")
                         pause(1)
                         clear_screen()
                         at(f"Your choice for the x value: {first}")
-                        at(f"Choose the y value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+                        at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                         second = input().lower()
-                    qgraph()
+                    if second == '0':
+                        at("Exiting...")
+                        pause(1)
+                        clear_screen()
+                        menu()
+                        return
+                    else:
+                        qgraph()
                 else:
                     qgraph()
             elif first == second:
@@ -388,7 +411,7 @@ def view_visualisation():
                     at("The two values can not be the same.")
                     pause(1)
                     clear_screen
-                    at(f"Choose the y value of the graph: {", ".join(options)}. Enter 0 to exit. ")
+                    at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                     second = input().lower()
                     if second == "0":
                         print("Exiting...")
