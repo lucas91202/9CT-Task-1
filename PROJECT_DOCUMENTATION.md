@@ -65,3 +65,14 @@ Social media can provide both positive and negative impacts on health. Social me
 | productivity_score | float64 | N.NN | A score out of 100 of the user's productivity | 33.86 | Must be 100 or lower and have 2 decimal places |
 | stress_level | string | XX...XX | How stressed the user is from low, medium and high | Low | Must not contain numbers, can only be low, medium and high |
 | platform | string | XX...XX | The social media platform that the user used the most | Youtube | Must contain only letters and should be a social media platform name |
+
+## Testing and Evaluating
+### Test Your Analysis
+I have checked through my program and confirmed that it gives correct results based off of the dataset.
+
+### Analyse and Conclude
+Social media has an effect on both sleep and productivity, however, it does not effect stress levels. Using my analysis, I found that only sleep and productivity were effected by higher social media hour usage, whereas stress levels had varying results. For example, users who had 0-3 social media hours on average had a productivity score slightly above those who had 6-9 hours, and those who had lower social media hours also had more sleep hours. This would allow you to assume that social media does have an effect on both sleep and productivity, but not stress level. However, these differences were very small as the dataset, consisting of 11000 entries, brang the gaps closer. Social media has an effect on both sleep and productivty, however, it does not effect stress likely because of external factors that were not considered.
+
+### Peer Verification ()
+
+### Evaluate Your Project
