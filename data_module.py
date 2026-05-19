@@ -340,7 +340,7 @@ def view_visualisation():
         elif first != "0":
             at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit or 1 to go back and edit your x value. ")
             second = input().lower()
-            while second not in options1[0:5] + ["0", "1"]:
+            while second not in options1[0:6] + ["0", "1"]:
                 at("Invalid option.")
                 pause(1)
                 clear_screen()
@@ -350,6 +350,7 @@ def view_visualisation():
             if second == "0":
                 at("Exiting...")
                 pause(1)
+                clear_screen()
                 menu()
                 return
             elif second == "1":
@@ -369,7 +370,7 @@ def view_visualisation():
                     return
                 at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                 second = input().lower()
-                while second not in options1[0:5]+['0']:
+                while second not in options1[0:6]+['0']:
                     at("Invalid option.")
                     pause(1)
                     clear_screen()
@@ -389,7 +390,7 @@ def view_visualisation():
                     at(f"Your choice for the x value: {first}")
                     at(f"Choose the y value of the graph: {', '.join(options)}. Enter 0 to exit. ")
                     second = input().lower()
-                    while second not in options1[0:5]+['0']:
+                    while second not in options1[0:6]+['0']:
                         at("Invalid option.")
                         pause(1)
                         clear_screen()
