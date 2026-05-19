@@ -204,7 +204,7 @@ def search_data():
     filtersearch()
 
 def graph(x, y, z):
-        word = val.sort_values(ascending=False) #find averages of y value and use groups of x
+        word = val
         word.plot(
                 kind= 'bar',
                 x= x,
@@ -249,7 +249,7 @@ def graph3(x, y, z):
         plt.show()
 
 def graph4(x, y, z):
-        word = val.sort_values(ascending=False) #find averages of y value and use groups of x
+        word = val
         word.plot(
                 kind= 'bar',
                 x= x,
@@ -301,6 +301,7 @@ def average(x, y):
                 l += 1
 
 def qgraph():
+    global social_media
     clear_screen()
     at("Displaying graph... Close the popup to return to menu")
     first_value = first.replace(" ", "_")
@@ -309,8 +310,17 @@ def qgraph():
         average(first_value, second_value)
         graph2(first_value, 'average', second_value)
     else:
-        average(first_value, second_value)
-        graph(first_value, 'average', second_value)
+        if first_value == "stress_level":
+            order1 = ["Low", "Medium", "High"]
+            social_media[first_value] = pd.Categorical(
+                social_media[first_value], categories=order1, ordered=True
+            )
+            social_media = social_media.sort_values(first_value)
+            average(first_value, second_value)
+            graph(first_value, 'average', second_value)
+        else:
+            average(first_value, second_value)
+            graph(first_value, 'average', second_value)
 
 def view_visualisation(): 
     global first
@@ -448,6 +458,10 @@ def view_visualisation():
                 graph3('social_media_hours', 'average', 'Social media effect on sleep')
             elif graph_options == '2':
                 clear_screen()
+                order1 = ["Low", "Medium", "High"]
+                social_media['stress_level'] = pd.Categorical(
+                social_media['stress_level'], categories=order1, ordered=True
+                )
                 at("Displaying graph... Close the popup to return to menu")
                 average('stress_level', 'social_media_hours')
                 graph4('stress_level', 'average', 'Social media effect on stress levels')
