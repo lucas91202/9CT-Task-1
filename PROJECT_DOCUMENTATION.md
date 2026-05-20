@@ -77,6 +77,7 @@ Social media has an effect on both sleep and productivity, however, it does not 
 
 ### Version Control
 #### Commits on May 20, 2026
+- worked on step 4 and fixed a typo in the menu function
 - Update data_module.cpython-314.pyc
 
 #### Commits on May 19, 2026
