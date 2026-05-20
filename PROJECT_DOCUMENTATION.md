@@ -75,4 +75,74 @@ Social media has an effect on both sleep and productivity, however, it does not 
 
 ### Peer Verification ()
 
+### Version Control
+#### Commits on May 20, 2026
+- Update data_module.cpython-314.pyc
+
+#### Commits on May 19, 2026
+- worked on step 4
+- small changes
+- final changes potentially
+- worked on issues to have the code work on all devices
+- Create data_module.cpython-314.pyc
+
+#### Commits on May 18, 2026
+- FINISHED
+
+#### Commits on May 17, 2026
+- small adjustments
+- finished visualisations
+- worked on data visulisation
+
+#### Commits on May 16, 2026
+- worked on data visualisations, close to finishing
+
+#### Commits on May 15, 2026
+- finished filtering, working on categories for graphs
+- worked on filtersearch function
+- Merge branch 'main' of https://github.com//9CT-Task-1
+- working on searching and filtering data
+
+#### Commits on May 14, 2026
+- worked on visualisation function
+- Worked on visualisations
+
+#### Commits on May 12, 2026
+- Update data_module.py
+- finished ui, starting work on functions
+
+#### Commits on May 8, 2026
+- started main.py
+- Update main.py
+
+#### Commits on May 7, 2026
+- Removed unnecessary columns
+
+#### Commits on May 3, 2026
+- Finished Identifying and Defining as well as Researching and Planning
+
+#### Commits on May 1, 2026
+- Added to my project documentation
+- Update PROJECT_DOCUMENTATION.md
+- Update PROJECT_DOCUMENTATION.md
+- Create Untitled-2026-04-24-1440.png
+
+#### Commits on Apr 30, 2026
+- Add files via upload
+
+#### Commits on Apr 24, 2026
+- Created files for task, moving on to mind map
+- Initial commit
+
 ### Evaluate Your Project
+
+#### Requirements Outline
+I believe that my project does mostly fit the functional requirements I set in the requirements outline. However, my project misses a few points mentioned. The project is only able to load one csv file, which is the dataset I used to create my project around. The program can sort and group data as a part of the search function. Statistical features the program can do only includes mean. Mode is not included however, the program can search for occurences of a specific number of the user's choice. The program succesfully outputs graphs and the final dataset is stored in a .csv file. The README and the user interface are both made well, allowing users to navigate and use the program. The system has been tested and has no errors. The program successfully fits the use-case, following each part of it correctly.
+
+#### Peer Feedback
+
+#### Project Management
+The creation of the project was very well organised and began with the early stages and brainstorming. Once an idea had been found, a purpose and dataset were also found. After researching and planning how the project would work, coding begun. Version control above demonstrates the progress on the project, starting on the main file, before working through the visualisations and searching feature. Once both were finished, the rest of the features were also finished. Once all features were finished, the entire project was put together and I began bug testing. Overall, the steps taken were very well organised and the project management was well done.
+
+#### Data and Security
+The data is timely as it is very recent, however, it is synthetic and not usable in real world scenarios. The data is therefore inaccurate and invalid, as the dataset is only meant for educational, analytical and machine learning purposes; it is used to simulate realistic user behaviour but it does not represent real people. The data is potentially biased as the creator created the data to simulate realistic behaviours, meaning the creator may have a biased view of how people behave. The project should have no issues concerning security. The user experience of the program could be improved upon to be made more accessible for users. This could be done by reducing the reading required, this would mean creating more menus, similar to how the program opens. The user experience could also be made more accessible for those who could have difficulty understanding what certain parts of the program mean, as some parts require reading to understand what to input.

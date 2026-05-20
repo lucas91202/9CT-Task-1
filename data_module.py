@@ -51,7 +51,7 @@ def menu():
     print("|    Options:                                                                   |")
     print("|                                                                               |")
     print("|        1. View dataset                                                        |")
-    print("|        2. Search of filter for data                                           |")
+    print("|        2. Search or filter for data                                           |")
     print("|        3. View visualisation                                                  |")
     print("|        4. Update a data entry                                                 |")
     print("|        5. Save changes                                                        |")
